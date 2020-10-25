@@ -33,7 +33,8 @@
         "TableRow": "tr",
         "Title": ".h3",
         "Table": ".table",
-        "DropDown": ".dropdown-item"
+        "DropDown": ".dropdown-item",
+        "DropDownMenu": ".dropdown-menu"
     },
     "CreateProfessor": {
         "ImageURL": ".form-control",
@@ -43,19 +44,33 @@
         "ProfSurname": ".ml-3"
     },
     "SingleProfessor": {
-        "Table": ".table"
+        "Table": ".table",
+        "TableTda": "table td a",
+        "TableD": "table td"
     },
     "CreateGradebook": {
         "Submit": ".btn",
-        "Alert": ".alert"
+        "Alert": ".alert",
+        "Input": ".form-control",
+        "Form": ".form-group"
+        
     },
     "MyGradebook": {
         "FirstName": "#firstName",
         "LastName": "#lastName",
-        "Button": ".btn"
+        "Button": ".btn",
+        "Form": ".form-control",
+        "Comment": ".comments-box",
+        "TableD": "table td",
+        "Container": ".container button"
     },
     "SingleGradebook": {
         "FirstName": "#firstName",
-        "LastName": "#lastName"
+        "LastName": "#lastName",
+        "Button": ".btn",
+        "TableD": "table td",
+        "Comment": ".comments-box",
+        "Input": ".form-control",
+        "Container": ".container button"
     }
 }

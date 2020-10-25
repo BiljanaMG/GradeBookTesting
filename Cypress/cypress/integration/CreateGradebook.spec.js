@@ -42,16 +42,16 @@ describe("Testovi za Login ", () => { // izasao iz integration,usao u fixtures i
   //1 
   it("Create Gradebook Page Visability", () => {
     cy.contains("Create Gradebook Page")
-    cy.get(".form-group").eq(0).should("be.visible").and("have.text", "Gradebook title")
-    cy.get(".form-control").eq(0).should("be.visible")
-    cy.get(".form-group").eq(1).should("be.visible")
-    cy.get(".form-control").eq(1).should("be.visible")
+    cy.get(Locators.CreateGradebook.Form).eq(0).should("be.visible").and("have.text", "Gradebook title")
+    cy.get(Locators.CreateGradebook.Input).eq(0).should("be.visible")
+    cy.get(Locators.CreateGradebook.Form).eq(1).should("be.visible")
+    cy.get(Locators.CreateGradebook.Input).eq(1).should("be.visible")
     cy.get(Locators.CreateGradebook.Submit).eq(0).should("be.visible").and("have.text", 'Submit')
   })
 
   //2
   it("Create Gradebook with new proffesor", () => {
-    cy.get(".form-control").eq(0).type("Struja")
+    cy.get(Locators.CreateGradebook.Input).eq(0).type("Struja")
     cy.get("select").select(fullName)
     cy.get(Locators.CreateGradebook.Submit).click()
     cy.wait(2000)
@@ -68,7 +68,7 @@ describe("Testovi za Login ", () => { // izasao iz integration,usao u fixtures i
 
   //4
   it("Create Gradebook without professor", () => {
-    cy.get(".form-control").eq(0).type("Struja")
+    cy.get(Locators.CreateGradebook.Input).eq(0).type("Struja")
     cy.get(Locators.CreateGradebook.Submit).click()
     cy.get(Locators.CreateGradebook.Alert).should("contain", "The given data was invalid.")
     cy.get(Locators.CreateGradebook.Alert).should("contain", "The professor id field is required.")

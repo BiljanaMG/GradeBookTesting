@@ -22,7 +22,7 @@ describe("Testovi za Login ", () => {
         cy.get(Locators.Login.LoginButton).click()
         cy.wait(2500)
         // Odabere prvog profesora iz tabele i klikne na njega
-        cy.get('table td').eq(1).click()
+        cy.get(Locators.SingleProfessor.TableD).eq(1).click()
     })
 
     //1
@@ -40,7 +40,7 @@ describe("Testovi za Login ", () => {
     //2
     it("Redirect from Single Professor Page to Single Gradebook Page", () => {
         cy.url().should("contains", "single-professor")
-        cy.get('table td a').eq(0).click()
+        cy.get(Locators.SingleProfessor.TableTda).eq(0).click()
         cy.url().should("contains", "single-gradebook")
         cy.url().should("contains", "gradebook")
     })

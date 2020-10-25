@@ -22,7 +22,7 @@ describe("Testovi za Login ", () => {
     //1 
     it("Professors drop-down list", () => {
         cy.get(Locators.Gradebooks.Header).eq(3).click()  // assert 
-        cy.get(".dropdown-menu").click()
+        cy.get(Locators.Professors.DropDownMenu).click()
         cy.get(Locators.Professors.DropDown).eq(0).should("have.text", "All Professors")  // assert 
         cy.get(Locators.Professors.DropDown).eq(1).should("have.text", "Create Professor")  // assert 
     })

@@ -50,7 +50,7 @@ describe("Testovi za Login ", () => {                     // izasao iz integrati
     cy.get(Locators.Gradebooks.Header).eq(2).click()
     cy.wait(2000)
     // Kreira novi gradebook za registrovanog korisnika
-    cy.get(".form-control").eq(0).type(uniqueBook)
+    cy.get(Locators.MyGradebook.Form).eq(0).type(uniqueBook)
     cy.get("select").select(fullName)
     cy.get(Locators.MyGradebook.Button).click()
     cy.wait(2000)
@@ -60,7 +60,7 @@ describe("Testovi za Login ", () => {                     // izasao iz integrati
   })
   // 1  //!!! test padne jer komentar nije prikazan. Tek kada ponovo dodjemo na stranicu komentar postane vidljiv.
   it("Add one comment", () => {
-    cy.get(".form-control").type("mali komentar")
+    cy.get(Locators.MyGradebook.Form).type("mali komentar")
     cy.get(Locators.MyGradebook.Button).last().click()
     cy.get(".comments p").contains("mali komentar")
   })
@@ -68,15 +68,15 @@ describe("Testovi za Login ", () => {                     // izasao iz integrati
   //2 //!!! test padne jer delete opcija nije vidljiva nakon sto se doda komentar
   it("Delete one comment", () => {
     let uniqueComment = "mali komentar-" + uniqueText()
-    cy.get(".form-control").type(uniqueComment)
+    cy.get(Locators.MyGradebook.Form).type(uniqueComment)
     // Last button is submit comment button
     cy.get(Locators.MyGradebook.Button).last().click()
     cy.wait(500)
-    cy.get(".comments-box").contains(uniqueComment)
+    cy.get(Locators.MyGradebook.Comment).contains(uniqueComment)
     //Last button in .comments-box is delete button that we need for latest comment
     cy.get(".comments-box .btn").last().click()
     cy.wait(500)
-    cy.get(".comments-box").contains(uniqueComment).should("not.be.visible")
+    cy.get(Locators.MyGradebook.Comment).contains(uniqueComment).should("not.be.visible")
   })
 
   //3
@@ -84,7 +84,7 @@ describe("Testovi za Login ", () => {                     // izasao iz integrati
     let uniqueName = "Struja-" + uniqueText()
     cy.wait(2000)
     cy.get(Locators.MyGradebook.Button).eq(2).click()
-    cy.get(".form-control").eq(0).click().clear().type(uniqueName)
+    cy.get(Locators.MyGradebook.Form).eq(0).click().clear().type(uniqueName)
     cy.get(Locators.MyGradebook.Button).click()
     cy.wait(2000)
     cy.url().should("contains", "/gradebooks")
@@ -94,7 +94,7 @@ describe("Testovi za Login ", () => {                     // izasao iz integrati
   it("Delete Gradebook", () => {
     cy.wait(2000)
     // Chose delete button:
-    cy.get(".container button").eq(1).click()
+    cy.get(Locators.MyGradebook.Container).eq(1).click()
     cy.wait(2000)
     // Ok button:
     cy.get('button').eq(0).click()
@@ -115,7 +115,7 @@ describe("Testovi za Login ", () => {                     // izasao iz integrati
     cy.get(Locators.MyGradebook.LastName).type("Petrovic")
     cy.get(Locators.MyGradebook.Button).last().click()
     cy.wait(2000)
-    cy.get("table td").should("contain", uniqueName)
+    cy.get(Locators.MyGradebook.TableD).should("contain", uniqueName)
   })
 
   //6
@@ -129,7 +129,7 @@ describe("Testovi za Login ", () => {                     // izasao iz integrati
     cy.get("input").last().type("https://upload.wikimedia.org/wikipedia/commons/7/75/S._Kragujevic%2C_Ivo_Andric%2C_1961.jpg")
     cy.get(Locators.MyGradebook.Button).last().click()
     cy.wait(2000)
-    cy.get("table td").should("contain", uniqueName)
+    cy.get(Locators.MyGradebook.TableD).should("contain", uniqueName)
   })
 
 
