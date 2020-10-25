@@ -1,0 +1,61 @@
+{
+    "Header": {
+        "Login": "a.nav-link",
+        "Register": "a.nav-link"
+    },
+    "Register": {
+        "FirstName": "#firstName",
+        "LastName": "#lastName",
+        "Email": "#email",
+        "Password": "#password",
+        "PasswordConfirmation": "#passwordConfirmation",
+        "FormCheckInput": "#termsAndConditions",
+        "Submit": ".btn"
+    },
+    "Login": {
+        "PleaseLogin": ".form-signin-heading",
+        "Email": ".form-control",
+        "Password": ".form-control",
+        "LoginButton": ".btn"
+    },
+    "Gradebooks": {
+        "Filter": ".form-control",
+        "Search": ".btn",
+        "Header": "a.nav-link",
+        "TableRow": "tr",
+        "Title": ".h3",
+        "Table": ".table",
+        "GradebookFilterTitle": ".form-check-label"
+    },
+    "Professors": {
+        "Filter": ".form-control",
+        "ProfFilterTitle": ".input",
+        "TableRow": "tr",
+        "Title": ".h3",
+        "Table": ".table",
+        "DropDown": ".dropdown-item"
+    },
+    "CreateProfessor": {
+        "ImageURL": ".form-control",
+        "Submit": ".btn",
+        "AddImage": ".btn",
+        "ProfName": ".ml-3",
+        "ProfSurname": ".ml-3"
+    },
+    "SingleProfessor": {
+        "Table": ".table"
+    },
+    "CreateGradebook": {
+        "Submit": ".btn",
+        "Alert": ".alert"
+    },
+    "MyGradebook": {
+        "FirstName": "#firstName",
+        "LastName": "#lastName",
+        "Button": ".btn"
+    },
+    "SingleGradebook": {
+        "FirstName": "#firstName",
+        "LastName": "#lastName"
+    }
+}

@@ -1,0 +1,2106 @@
+{
+	"info": {
+		"_postman_id": "0a6c7fac-7bde-41d2-924e-2906f28a0ae6",
+		"name": "GradeBook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RegisterUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cceb2c9a-1082-449c-8664-3fa5fe4564b1",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"let firstNameENV = pm.environment.get(\"firstName\");\r",
+							"pm.test(\"First name is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.firstName).to.eql(firstNameENV);\r",
+							"});\r",
+							"\r",
+							"let lastNameENV = pm.environment.get(\"lastName\");\r",
+							"pm.test(\"Last name is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.lastName).to.eql(lastNameENV);\r",
+							"});\r",
+							"\r",
+							"let emailENV = pm.environment.get(\"email\");\r",
+							"pm.test(\"Email is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.email).to.eql(emailENV);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a82bbcbc-b6ef-46e6-8373-b38b3aecb081",
+						"exec": [
+							"var email = \"mileva\" + _.random(1, 1000000) + \"@gmail.com\"\r",
+							"pm.environment.set(\"email\", email);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"{{firstName}}\",\r\n   \"lastName\":\"{{lastName}}\",\r\n   \"email\":\"{{email}}\",\r\n   \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-RegisterUserWithSameEmail-BUG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f072241b-dda4-41e7-a9a9-8e211c1452a9",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0e3ffaa3-0fcd-4d23-94ae-4c21cfb860c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"{{firstName}}\",\r\n   \"lastName\":\"{{lastName}}\",\r\n   \"email\":\"{{email}}\",\r\n   \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-RegisterUserWithAllEmptyFields",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b806459-10d6-4ae5-b5a8-09d8ee758f5d",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Body matches string: Column 'firstName' cannot be null\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'firstName' cannot be null\");\r",
+							"}); \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e52e5705-f7d1-4c6c-8d2d-2389b93c746e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"\",\r\n   \"lastName\":\"\",\r\n   \"email\":\"\",\r\n   \"password\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-RegisterUserWithoutName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dcc7b258-7e9d-4021-8d48-fa43dc7e6019",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Body matches string: Column 'firstName' cannot be null\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'firstName' cannot be null\");\r",
+							"}); \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f8d8e22e-203b-4db0-9b35-799ac6da6ec4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"\",\r\n   \"lastName\":\"{{lastName}}\",\r\n   \"email\":\"{{email}}\",\r\n   \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-RegisterUserWithoutLastName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "769adf91-258c-4686-a499-8993dfd72474",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Body matches string: Column 'lastName' cannot be null\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'lastName' cannot be null\");\r",
+							"}); "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2229c00c-bc19-41c9-add7-dac948f1f6ce",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"{{firstName}}\",\r\n   \"lastName\":\"\",\r\n   \"email\":\"{{email}}\",\r\n   \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-RegisterUserWithoutEmail-BUG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ca7a5b6c-0990-4cf6-91cc-e4b1b000a9d2",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Body matches string: Column 'email' cannot be null\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'email' cannot be null\");\r",
+							"}); "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4a69c836-d222-4271-a52f-9f240125962e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"{{firstName}}\",\r\n   \"lastName\":\"{{lastName}}\",\r\n   \"email\":\"\",\r\n   \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-RegisterUserWithInvalidEmail-BUG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2d0166b-be47-48c6-8a00-de009e114417",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Email is not valid\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'email' is not valid\");\r",
+							"}); "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5edecea5-6bd4-4561-93f0-88e69b2f55e1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"{{firstName}}\",\r\n   \"lastName\":\"{{lastName}}\",\r\n   \"email\":\"invalidEmail\",\r\n   \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-RegisterUserWithoutPassword-BUG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e7c834b1-67e5-437c-a73b-c7980c7aa510",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Body matches string: Column 'password' cannot be null\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'password' cannot be null\");\r",
+							"}); \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6cbb51e3-421a-4bd0-bc1c-77550fafc0e8",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"{{firstName}}\",\r\n   \"lastName\":\"{{lastName}}\",\r\n   \"email\":\"{{email}}\",\r\n   \"password\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-RegisterUserWithoutAllNumbersPassword-BUG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d693224f-aa8a-481c-af81-7dc5e2818162",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8f13f4a8-c847-44f1-ae07-8afcbfe2a457",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"{{firstName}}\",\r\n   \"lastName\":\"{{lastName}}\",\r\n   \"email\":\"{{email}}\",\r\n   \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/register",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e8bcff8-d83f-40bb-aa7e-8299435b366d",
+						"exec": [
+							"// Save token to environment variable\r",
+							"var jsonData = pm.response.json();\r",
+							"var token = jsonData.token;\r",
+							"pm.environment.set(\"token\", token);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 400ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"});\r",
+							"\r",
+							"let firstNameENV = pm.environment.get(\"firstName\");\r",
+							"pm.test(\"First name is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user.firstName).to.eql(firstNameENV);\r",
+							"});\r",
+							"\r",
+							"let lastNameENV = pm.environment.get(\"lastName\");\r",
+							"pm.test(\"Last name is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user.lastName).to.eql(lastNameENV);\r",
+							"});\r",
+							"\r",
+							"let emailENV = pm.environment.get(\"email\");\r",
+							"pm.test(\"Email is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user.email).to.eql(emailENV);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\":\"{{email}}\",\r\n   \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/login",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginTermsAndConditions-BUG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2e697036-fbdd-45bd-9d8c-a25d7eba82fd",
+						"exec": [
+							"pm.test(\"Is terms and conditions true\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user.termsAndConditions).to.eql(true);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\":\"{{email}}\",\r\n   \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/login",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-LoginWithBlankFieldData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1190f965-33e3-4ff7-856f-181b946a376c",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Has error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"invalid_credentials\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\":\"     \",\r\n   \"password\":\"     \"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/login",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-LoginWithWrongEmail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c3bb839-fd8c-4544-9202-e16cc1ae4a7b",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Has error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"invalid_credentials\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\":\"paja@patak\",\r\n   \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/login",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-LoginWithWrongPassword",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d8526d4e-54ed-4193-b46a-69a4239d9d3b",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Has error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"invalid_credentials\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\":\"{{UserName}}\",\r\n   \"password\":\"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/login",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-LoginWithInvalidMailAndInvalidPassword",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f5b5a3f-2da1-4251-ab09-1120c48fb181",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Has error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"invalid_credentials\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\":\"paja@patak.com\",\r\n   \"password\":\"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/login",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ProfessorsListBeforeCreate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "49a4e48c-7057-4f8f-8c58-f199ea53398b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var lastElement = jsonData[jsonData.length - 1]\r",
+							"pm.environment.set(\"professorId\", lastElement.user.id);\r",
+							"\r",
+							"pm.environment.set(\"count\", jsonData.length);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/professors",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"professors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ProfessorsCreate",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d4eb7c85-d738-4ac5-b467-ba2a58e8481c",
+						"exec": [
+							"var name = \"nikola\" + _.random(1, 1000000)\r",
+							"pm.environment.set(\"ProfessorName\", name);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "36d1b952-ed6a-4fbe-81e0-ee35df23504b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 400ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Is professor created\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Image saved message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Images Saved!!\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"url\":[\"{{pictureURL}}\"],\r\n   \"firstName\":\"{{ProfessorName}}\",\r\n   \"lastName\":\"{{ProfessorSurname}}\",\r\n   \"diary_id\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/professors",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"professors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ProfessorsListAfterCreate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c57d0416-00ad-4636-95ce-8fee23ce4ac3",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var countProsli = pm.environment.get(\"count\");\r",
+							"var countNovi = jsonData.length;\r",
+							"\r",
+							"pm.test(\"Professor count increase\", function () {\r",
+							"    pm.expect(countProsli).to.eql(countNovi - 1);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/professors",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"professors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-ProfessorsCreateWithoutProfessorName",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "98ffb9a4-c1c5-48b2-b9cf-749e8b8b3968",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfba7c2a-591d-47dc-9546-e1585cf477a0",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Body matches string: Column 'firstName' cannot be null\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'firstName' cannot be null\");\r",
+							"}); \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"url\":[\"{{pictureURL}}\"],\r\n   \"firstName\":\"\",\r\n   \"lastName\":\"{{ProffesorSurname}}\",\r\n   \"diary_id\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/professors",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"professors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-ProfessorsCreateWithoutPicture",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "64d290fe-d686-45cc-9e56-a4965f5abbce",
+						"exec": [
+							"var name = \"nikola\" + _.random(1, 1000000)\r",
+							"pm.environment.set(\"ProfessorName\", name);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "23b27478-e1c0-4dd5-a36e-ad19149f58d2",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Body matches string: Column 'url' cannot be null\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'url' cannot be null\");\r",
+							"}); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"url\":[\r\n      \"\"\r\n   ],\r\n   \"firstName\":\"{{ProfessorName}}\",\r\n   \"lastName\":\"{{LastName}}\",\r\n   \"diary_id\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/professors",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"professors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-ProfessorsCreateWithoutProfessorSurname",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "005a974e-db0c-4efc-95dc-fbc146e856d1",
+						"exec": [
+							"var name = \"nikola\" + _.random(1, 1000000)\r",
+							"pm.environment.set(\"ProfessorName\", name);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c532eaaf-e2fd-40f5-9f75-0bdda7493dcd",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Body matches string: Column 'lastName' cannot be null\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'lastName' cannot be null\");\r",
+							"}); \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"url\":[\"{{pictureURL}}\"],\r\n   \"firstName\":\"{{ProfessorName}}\",\r\n   \"lastName\":\"\",\r\n   \"diary_id\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/professors",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"professors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-ProfessorsCreateWithoutPictureAndName-BUG",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ee88b68a-5c30-4df7-8b9a-c5533e697d3c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4bdf5272-0f03-4a42-9fc4-74d9f578e4b0",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"// Response body: Contains string\r",
+							"pm.test(\"Body matches string: Column 'url' cannot be null\", function () {\r",
+							"   pm.expect(pm.response.text()).to.include(\"Column 'url' cannot be null\");\r",
+							"}); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"lastName\":\"{{LastName}}\",\r\n   \"diary_id\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/professors",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"professors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GradebookCreate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "45dbea03-85e3-4e61-8756-dc6325152f6e",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var titleENV = pm.environment.get(\"gradebookTitle\");\r",
+							"pm.test(\"Gradebook title is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(titleENV);\r",
+							"});\r",
+							"\r",
+							"var profIdENV =  pm.environment.get(\"professorId\");\r",
+							"pm.test(\"Professor id is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.professor_id).to.eql(profIdENV);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var GradeId = jsonData.id;\r",
+							"pm.environment.set(\"GradeId\", GradeId);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cff587de-7768-465c-99c3-4ce42c5b9405",
+						"exec": [
+							"var gradebookTitle = \"struja\" + _.random(1, 1000000);\r",
+							"pm.environment.set(\"gradebookTitle\", gradebookTitle);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"title\":\"{{gradebookTitle}}\",\r\n   \"professor_id\":{{professorId}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/diaries",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-GradebookCreateWithoutTitle-BUG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "34ec7829-ce67-4977-99e4-cbbfda4ad0f7",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"title\":\"\",\r\n   \"professor_id\":{{professorId}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/diaries",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GradeBooks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1c5d4dca-7156-4496-8177-d03d5f0c2d7a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Has at least one element in array\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.length).to.greaterThan(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/diaries?page=1",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GradeBooksSearch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e55146a8-8b09-464b-b44c-7aae4dd4aff7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var gradebookTitleENV = pm.environment.get(\"gradebookTitle\");\r",
+							"pm.test(\"Gradebook title is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data[0].title).to.eql(gradebookTitleENV);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Gradebook page total is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.total).to.eql(1);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/search?search_term={{gradebookTitle}}&page=1",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "search_term",
+							"value": "{{gradebookTitle}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GradebooksPagination",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0728e7df-ffa2-43fa-8732-0848cdae83b3",
+						"exec": [
+							"\r",
+							"//proveravamo paginaciju i da li nam dovlaci novih 10 galerija\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check the Pagination length\", function () {\r",
+							"    pm.expect(jsonData.data).to.have.lengthOf(10);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/search?search_term=&page=2",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "search_term",
+							"value": ""
+						},
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CommentsCreate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2f04f6cf-11e8-460e-affa-35ebc4e16455",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"var commentId = jsonData.id;\r",
+							"pm.environment.set(\"commentId\", commentId);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var commentENV = pm.environment.get(\"comment\");\r",
+							"pm.test(\"Comment is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.text).to.eql(commentENV);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"text\":\"{{comment}}\",\r\n   \"user_id\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/diaries/{{GradeId}}/comments",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries",
+						"{{GradeId}}",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CommentsGetOne",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c558e7e-4324-4d80-9d58-25c93cfa2a2e",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Has exactly one comment\", function () {\r",
+							"    pm.expect(jsonData.comments.length).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"var commentENV = pm.environment.get(\"comment\");\r",
+							"pm.test(\"Your test name\", function () {\r",
+							"    pm.expect(jsonData.comments[0].text).to.eql(commentENV);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/diaries/{{GradeId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries",
+						"{{GradeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CommentsDelete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9cc4b6a4-5163-433f-847f-52896a7f2ada",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/comments/{{commentId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"comments",
+						"{{commentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddStudent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "05c5e8a6-8c43-4afa-ac26-9ee055e7692b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Is it success value true\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Add student show correct message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Gallery Saved!!\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"Petar\",\r\n   \"lastName\":\"Petrovic\",\r\n   \"url\":[\r\n      \"https://as2.ftcdn.net/jpg/02/24/86/95/500_F_224869564_2HaoiHmalIrDoFExIkJCk8g5MUtfWlkP.jpg\"\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/diaries/{{GradeId}}/students",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries",
+						"{{GradeId}}",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "N-AddStudentWithoutData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8fdd750e-dae9-4d2f-afee-bfba1c1e6480",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"\",\r\n   \"lastName\":\"\",\r\n   \"url\":[\r\n      \"\"\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/diaries/{{GradeId}}/students",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries",
+						"{{GradeId}}",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddedStudentGet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "733398fd-2814-4352-8e46-6808402f746d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"var gradebookTitle = pm.environment.get(\"gradebookTitle\");\r",
+							"pm.test(\"Gradebook Title is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(gradebookTitle);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"  \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/diaries/{{GradeId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries",
+						"{{GradeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditGradebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c9b1237-229c-4c85-9f6b-82b37b393b2b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var titleENV = pm.environment.get(\"changedGradebookTitle\");\r",
+							"pm.test(\"Title\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(titleENV);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5c66ccb9-fa97-4a74-843e-b203684dcac6",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"id\":{{GradeId}},\r\n   \"title\":\"{{changedGradebookTitle}}\",\r\n   \"professor_id\":{{professorId}}\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/diaries/{{GradeId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries",
+						"{{GradeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteGradebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10500f03-5f4e-4fbb-a9fa-25f2918cb9e1",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var gradebookTitle = pm.environment.get(\"changedGradebookTitle\");\r",
+							"pm.test(\"Title is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(gradebookTitle);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/diaries/{{GradeId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"diaries",
+						"{{GradeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SingleProfessor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "40ac4be7-a538-4a80-acd9-29acce42ea9b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var firstNameENV = pm.environment.get(\"firstName\");\r",
+							"pm.test(\"firstName is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user.firstName).to.eql(firstNameENV);\r",
+							"});\r",
+							"\r",
+							"var lastNameENV = pm.environment.get(\"lastName\");\r",
+							"pm.test(\"lastName is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user.lastName).to.eql(lastNameENV);\r",
+							"});\r",
+							"\r",
+							"var emailENV = pm.environment.get(\"email\");\r",
+							"pm.test(\"email is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.user.email).to.eql(emailENV);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/professors/{{professorId}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"professors",
+						"{{professorId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
